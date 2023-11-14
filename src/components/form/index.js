@@ -8,7 +8,7 @@ const Form = () => {
     handleSubmit,
     control,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm();
 
   const onSubmit = (data) => {
@@ -139,7 +139,7 @@ const Form = () => {
           </span>
         </div>
 
-        <input type="submit" value={"Submit"} />
+        <input type="submit" disabled = {!isValid && isDirty} value={"Submit"} />
       </form>
       <DevTool control={control} />
     </>
