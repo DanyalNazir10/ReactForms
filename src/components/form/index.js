@@ -88,7 +88,12 @@ const Form = () => {
           <input
             type="tel"
             id="contact"
-            {...register("contact")}
+            {...register("contact", {
+                pattern:{
+                    value: /^\d{11}$/,
+                    message: "Contact should be 11 digits long"
+                }
+            })}
             placeholder="Enter your contact number"
           />
           <span className="error-message">{errors.contact?.message}</span>
