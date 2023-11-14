@@ -4,11 +4,15 @@ import { DevTool } from "@hookform/devtools";
 
 const Form = () => {
 
-    const {register, control} = useForm();
+    const {register,handleSubmit, control} = useForm();
+
+    const onSubmit = (data) => {
+        console.log("Form submitted with data: ", data);
+    }
 
     return(
         <>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" {...register("firstName")} placeholder="Enter your first name"/>
 
