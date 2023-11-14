@@ -30,7 +30,11 @@ const Form = () => {
                 
                 <label htmlFor="email">Notification Emails</label>
                 <input type="email" id="email" {...register("email", {
-                    required: "Emails are required"
+                    required: "Emails are required",
+                    pattern: {
+                        value: /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}(?:,[\s]*[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})*$/,
+                        message: "Invalid email"
+                    }
                     })} placeholder="Enter your emails"/>
 
                 <label htmlFor="contact">Contact Number</label>
