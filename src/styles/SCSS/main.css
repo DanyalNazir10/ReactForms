@@ -1,0 +1,29 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+body h1 {
+  text-align: center;
+  color: rgb(45, 111, 234);
+}
+body label {
+  font-weight: bold;
+  padding: 5px;
+}
+body input {
+  display: block;
+  width: 400px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42;
+  color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+body input[type=submit] {
+  width: 428px;
+  background-color: cornflowerblue;
+  font-weight: bold;
+}/*# sourceMappingURL=main.css.map */
