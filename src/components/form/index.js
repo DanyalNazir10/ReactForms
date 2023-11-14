@@ -7,6 +7,7 @@ const Form = () => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -90,7 +91,17 @@ const Form = () => {
           <input
             type="password"
             id="password"
-            {...register("password")}
+            {...register("password", {
+                minLength:{
+                    value: 8,
+                    message: "Password should be 8 characters long"
+                }, 
+                pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
+                    message:
+                      'Password should contain atleast one uppercase & lowercase letter, and one digit',
+                  },
+            })}
             placeholder="Enter your password"
           />
           <span className="error-message">{errors.password?.message}</span>
@@ -101,7 +112,13 @@ const Form = () => {
           <input
             type="password"
             id="confirmPassword"
-            {...register("confirmPassword")}
+            {...register("confirmPassword", {
+                validate: (val) => {
+                    if (watch('password') != val) {
+                      return "Passwords should match";
+                    }
+                  },
+            })}
             placeholder="Confirm your password"
           />
           <span className="error-message">
