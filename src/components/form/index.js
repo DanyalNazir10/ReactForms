@@ -12,18 +12,26 @@ const Form = () => {
 
     return(
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" {...register("firstName")} placeholder="Enter your first name"/>
+                <input type="text" id="firstName" {...register("firstName", {
+                    required: "First name is required"
+                    })} placeholder="Enter your first name"/>
 
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" {...register("lastName")} placeholder="Enter your last name"/>
+                <input type="text" id="lastName" {...register("lastName", {
+                    required: "Last name is required"
+                    })} placeholder="Enter your last name"/>
                 
                 <label htmlFor="age">Age</label>
-                <input type="number" id="age" {...register("age")} placeholder="Enter your age"/>
+                <input type="number" id="age" {...register("age", {
+                    required: "Age is required"
+                    })} placeholder="Enter your age"/>
                 
                 <label htmlFor="email">Notification Emails</label>
-                <input type="email" id="email" {...register("email")} placeholder="Enter your emails"/>
+                <input type="email" id="email" {...register("email", {
+                    required: "Emails are required"
+                    })} placeholder="Enter your emails"/>
 
                 <label htmlFor="contact">Contact Number</label>
                 <input type="tel" id="contact" {...register("contact")} placeholder="Enter your contact number"/>
