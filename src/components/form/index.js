@@ -51,14 +51,14 @@ const Form = () => {
             id="age"
             {...register("age", {
               required: "Age is required",
-              min:{
+              min: {
                 value: 18,
-                message: "Minimum age limit is 18"
+                message: "Minimum age limit is 18",
               },
-              max:{
-                value: 151, 
-                message: "Maximum age limit is 151"
-              }
+              max: {
+                value: 151,
+                message: "Maximum age limit is 151",
+              },
             })}
             placeholder="Enter your age"
           />
@@ -89,10 +89,10 @@ const Form = () => {
             type="tel"
             id="contact"
             {...register("contact", {
-                pattern:{
-                    value: /^\d{11}$/,
-                    message: "Contact should be 11 digits long"
-                }
+              pattern: {
+                value: /^\d{11}$/,
+                message: "Contact should be 11 digits long",
+              },
             })}
             placeholder="Enter your contact number"
           />
@@ -105,15 +105,15 @@ const Form = () => {
             type="password"
             id="password"
             {...register("password", {
-                minLength:{
-                    value: 8,
-                    message: "Password should be 8 characters long"
-                }, 
-                pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
-                    message:
-                      'Password should contain atleast one uppercase & lowercase letter, and one digit',
-                  },
+              minLength: {
+                value: 8,
+                message: "Password should be 8 characters long",
+              },
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
+                message:
+                  "Password should contain atleast one uppercase & lowercase letter, and one digit",
+              },
             })}
             placeholder="Enter your password"
           />
@@ -126,11 +126,11 @@ const Form = () => {
             type="password"
             id="confirmPassword"
             {...register("confirmPassword", {
-                validate: (val) => {
-                    if (watch('password') != val) {
-                      return "Passwords should match";
-                    }
-                  },
+              validate: (val) => {
+                if (watch("password") != val) {
+                  return "Passwords should match";
+                }
+              },
             })}
             placeholder="Confirm your password"
           />
@@ -139,7 +139,7 @@ const Form = () => {
           </span>
         </div>
 
-        <input type="submit" disabled = {!isValid && isDirty} value={"Submit"} />
+        <input type="submit" disabled={!isValid && isDirty} value={"Submit"} />
       </form>
       <DevTool control={control} />
     </>
