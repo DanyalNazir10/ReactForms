@@ -1,6 +1,55 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  age: yup
+    .number()
+    .transform((value) => (Number.isNaN(value) ? null : value))
+    .nullable()
+    .required("Age is required")
+    .min(18, "Minimum age limit is 18")
+    .max(151, "Maximum age limit is 151"),
+  email: yup
+    .string()
+    .required("Emails are required")
+    .transform((originalValue) => originalValue.replace(/\s/g, ""))
+    .test({
+      name: "isValidEmails",
+      exclusive: true,
+      message: "Invalid email",
+      test: (value) => {
+        const emails = value.split(",");
+        return emails.every(
+          (email) => email === "" || yup.string().email().isValidSync(email)
+        );
+      },
+    }),
+  contact: yup
+    .string()
+    .nullable()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .matches(/^[0-9]+$/, "Invalid contact")
+    .length(11, "Contact should have exactly 11 digits"),
+  password: yup
+    .string()
+    .nullable()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
+      "Password should contain atleast one uppercase & lowercase letter, and one digit"
+    )
+    .length(8, "Password should be 8 characters long"),
+  confirmPassword: yup
+    .string()
+    .nullable()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
 
 const Form = () => {
   const {
@@ -9,7 +58,7 @@ const Form = () => {
     control,
     watch,
     formState: { errors, isValid, isDirty },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(validationSchema) });
 
   const onSubmit = (data) => {
     console.log("Form submitted with data: ", data);
@@ -23,9 +72,7 @@ const Form = () => {
           <input
             type="text"
             id="firstName"
-            {...register("firstName", {
-              required: "First name is required",
-            })}
+            {...register("firstName")}
             placeholder="Enter your first name"
           />
           <span className="error-message">{errors.firstName?.message}</span>
@@ -36,9 +83,7 @@ const Form = () => {
           <input
             type="text"
             id="lastName"
-            {...register("lastName", {
-              required: "Last name is required",
-            })}
+            {...register("lastName")}
             placeholder="Enter your last name"
           />
           <span className="error-message">{errors.lastName?.message}</span>
@@ -49,17 +94,7 @@ const Form = () => {
           <input
             type="number"
             id="age"
-            {...register("age", {
-              required: "Age is required",
-              min: {
-                value: 18,
-                message: "Minimum age limit is 18",
-              },
-              max: {
-                value: 151,
-                message: "Maximum age limit is 151",
-              },
-            })}
+            {...register("age")}
             placeholder="Enter your age"
           />
           <span className="error-message">{errors.age?.message}</span>
@@ -70,14 +105,7 @@ const Form = () => {
           <input
             type="email"
             id="email"
-            {...register("email", {
-              required: "Emails are required",
-              pattern: {
-                value:
-                  /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}(?:,[\s]*[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})*$/,
-                message: "Invalid email",
-              },
-            })}
+            {...register("email")}
             placeholder="Enter your emails"
           />
           <span className="error-message">{errors.email?.message}</span>
@@ -88,12 +116,7 @@ const Form = () => {
           <input
             type="tel"
             id="contact"
-            {...register("contact", {
-              pattern: {
-                value: /^\d{11}$/,
-                message: "Contact should be 11 digits long",
-              },
-            })}
+            {...register("contact")}
             placeholder="Enter your contact number"
           />
           <span className="error-message">{errors.contact?.message}</span>
@@ -104,17 +127,7 @@ const Form = () => {
           <input
             type="password"
             id="password"
-            {...register("password", {
-              minLength: {
-                value: 8,
-                message: "Password should be 8 characters long",
-              },
-              pattern: {
-                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
-                message:
-                  "Password should contain atleast one uppercase & lowercase letter, and one digit",
-              },
-            })}
+            {...register("password")}
             placeholder="Enter your password"
           />
           <span className="error-message">{errors.password?.message}</span>
@@ -125,13 +138,7 @@ const Form = () => {
           <input
             type="password"
             id="confirmPassword"
-            {...register("confirmPassword", {
-              validate: (val) => {
-                if (watch("password") != val) {
-                  return "Passwords should match";
-                }
-              },
-            })}
+            {...register("confirmPassword")}
             placeholder="Confirm your password"
           />
           <span className="error-message">
