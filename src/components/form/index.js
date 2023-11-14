@@ -51,6 +51,14 @@ const Form = () => {
             id="age"
             {...register("age", {
               required: "Age is required",
+              min:{
+                value: 18,
+                message: "Minimum age limit is 18"
+              },
+              max:{
+                value: 151, 
+                message: "Maximum age limit is 151"
+              }
             })}
             placeholder="Enter your age"
           />
